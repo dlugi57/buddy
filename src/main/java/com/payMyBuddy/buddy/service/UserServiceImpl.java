@@ -26,6 +26,18 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
+
+    /**
+     * Add users
+     *
+     * @return List of all users
+     */
+    @Override
+    public User addUser(User user) {
+        return userDao.save(user);
+    }
+
+
     /**
      * Get all users
      *
