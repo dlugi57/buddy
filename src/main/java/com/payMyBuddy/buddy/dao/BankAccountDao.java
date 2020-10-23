@@ -1,11 +1,10 @@
 package com.payMyBuddy.buddy.dao;
 
-
-import com.payMyBuddy.buddy.model.User;
+import com.payMyBuddy.buddy.model.BankAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDAO extends JpaRepository<User, Integer> {
+public interface BankAccountDao extends JpaRepository<BankAccount, Integer> {
 
 }
