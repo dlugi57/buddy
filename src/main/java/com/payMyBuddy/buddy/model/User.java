@@ -22,7 +22,7 @@ public class User {
     private String email;
 
     private String password;
-
+    // TODO: 24/10/2020 how to forbidden this value in creation ? 
     private Double wallet;
     @OneToMany
     private List<BankAccount> bankAccounts;

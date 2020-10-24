@@ -44,26 +44,91 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> addUser(@Valid @RequestBody User user) {
 
+        // if user already exist send status and error message
+        if (!userService.addUser(user)) {
+            logger.error("POST user -> " +
+                    "addUser /**/ HttpStatus : " + HttpStatus.CONFLICT + " /**/ Message : " +
+                    " This user already exist");
 
-        // if medical record already exist send status and error message
-        //if (!userService.addUser(user)) {
-            //logger.error("POST medicalrecord -> " +
-              //      "addMedicalRecord /**/ HttpStatus : " + HttpStatus.CONFLICT + " /**/
-            //      Message :  This medical record already exist");
-
-          //  throw new ResponseStatusException(HttpStatus.CONFLICT, "This medical record already
-            //  exist");
-        //}
-        userService.addUser(user);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This user already exist");
+        }
         // create url with new created medical record
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/").queryParam("firstName")
-                .queryParam("lastName").build().toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/").queryParam("firstName", user.getFirstName())
+                .queryParam("lastName", user.getLastName()).build().toUri();
 
-        logger.info("POST medicalrecord -> addMedicalRecord /**/ HttpStatus : " + HttpStatus.CREATED + " /**/ Result : '{}'.", location);
+        logger.info("POST user -> addUser /**/ HttpStatus : " + HttpStatus.CREATED + " /**/ " +
+                "Result : '{}'.", location);
 
         return ResponseEntity.created(location).build();
     }
 
+    /**
+     * Add user
+     *
+     * @param user user object
+     * @return status and uri with new created user
+     */
+    @PutMapping(value = "/user")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Void> updateUser(@Valid @RequestBody User user) {
+
+        // if user already exist send status and error message
+        if (!userService.updateUser(user)) {
+            logger.error("POST user -> " +
+                    "updateUser /**/ HttpStatus : " + HttpStatus.CONFLICT + " /**/ Message : " +
+                    " This user don't exist");
+
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This user don't exist");
+        }
+        // create url with new created medical record
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/").queryParam("firstName", user.getFirstName())
+                .queryParam("lastName", user.getLastName()).build().toUri();
+
+        logger.info("POST user -> updateUser /**/ HttpStatus : " + HttpStatus.CREATED + " /**/ " +
+                "Result : '{}'.", location);
+
+        return ResponseEntity.created(location).build();
+    }
+
+    /**
+     * Delete medical record
+     *
+     * @param user user record object
+     */
+    @DeleteMapping(value = "/user")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@Valid @RequestBody User user) {
+        // if there is no medical record send status and error message
+        if (!userService.deleteUser(user)) {
+            logger.error("DELETE user -> deleteUser /**/ Result : " + HttpStatus.NOT_FOUND
+                    + " /**/ Message : This user don't exist : '{}'.", user.toString());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user don't exist");
+        }
+        logger.info("DELETE user -> deleteUser /**/ HttpStatus : " + HttpStatus.OK);
+    }
+
+    /**
+     * Connect user
+     *
+     * @param email email
+     * @param password  password
+     * @return User object
+     */
+    @GetMapping(value = "/user")
+    @ResponseStatus(HttpStatus.OK)
+    public User connectUser(@RequestParam() String email, String password) {
+        // get person
+        User user = userService.connectUser(email, password);
+        // if person don't exist send error message
+        if (user == null) {
+            logger.error("GET user -> getPersonByFirstNameAndLastName /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  User email " + email + " or password " + password + " are wrong");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Wrong email: " + email + " or password " + password);
+        }
+
+        logger.info("GET person -> getPersonByFirstNameAndLastName /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", user.toString());
+        return user;
+    }
     /**
      * Get all users
      *
