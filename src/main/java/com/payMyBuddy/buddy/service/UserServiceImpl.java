@@ -17,7 +17,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     static final Logger logger = LogManager
-            .getLogger(UserController.class);
+            .getLogger(UserServiceImpl.class);
 
     // initialize objects
     UserDao userDao;

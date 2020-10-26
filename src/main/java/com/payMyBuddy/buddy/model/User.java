@@ -1,14 +1,21 @@
 package com.payMyBuddy.buddy.model;
 
 
+import org.hibernate.annotations.Proxy;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-public class User {
+@Proxy(lazy = false)
+
+public class User implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
@@ -16,6 +23,7 @@ public class User {
     private String firstName;
 
     private String lastName;
+
     @Email
     @NotNull
     @Column(unique = true)
@@ -24,12 +32,32 @@ public class User {
     private String password;
     // TODO: 24/10/2020 how to forbidden this value in creation ? 
     private Double wallet;
-    @OneToMany
-    private List<BankAccount> bankAccounts;
+
+/*    @OneToMany
+    private List<BankAccount> bankAccounts;*/
+
     @ManyToMany
     private List<User> contacts;
 
-    private LocalDate creationDate;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", wallet=" + wallet +
+                //", bankAccounts=" + bankAccounts +
+                ", contacts=" + contacts +
+                ", creationDate=" + creationDate +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -79,13 +107,13 @@ public class User {
         this.wallet = wallet;
     }
 
-    public List<BankAccount> getBankAccounts() {
+/*    public List<BankAccount> getBankAccounts() {
         return bankAccounts;
     }
 
     public void setBankAccounts(List<BankAccount> bankAccounts) {
         this.bankAccounts = bankAccounts;
-    }
+    }*/
 
     public List<User> getContacts() {
         return contacts;
@@ -95,11 +123,12 @@ public class User {
         this.contacts = contacts;
     }
 
-    public LocalDate getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
 }
