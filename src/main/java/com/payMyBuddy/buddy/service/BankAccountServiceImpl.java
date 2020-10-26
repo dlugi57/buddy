@@ -4,6 +4,7 @@ import com.payMyBuddy.buddy.controller.UserController;
 import com.payMyBuddy.buddy.dao.BankAccountDao;
 import com.payMyBuddy.buddy.dao.UserDao;
 import com.payMyBuddy.buddy.model.BankAccount;
+import com.payMyBuddy.buddy.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     // initialize objects
     BankAccountDao bankAccountDao;
+    UserDao userDao;
 
     /**
      * Field injection of bank account dao
@@ -29,8 +31,9 @@ public class BankAccountServiceImpl implements BankAccountService {
      * @param bankAccountDao bank account dao
      */
     @Autowired
-    public void setBankAccountDao(BankAccountDao bankAccountDao) {
+    public void setBankAccountDao(BankAccountDao bankAccountDao, UserDao userDao) {
         this.bankAccountDao = bankAccountDao;
+        this.userDao = userDao;
     }
 
 
@@ -104,5 +107,15 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public List<BankAccount> getBankAccounts() {
         return bankAccountDao.findAll();
+    }
+
+    @Override
+    public List<BankAccount> getBankAccountsByUserId(Integer userId) {
+       // User user = userDao.getById(userId);
+
+        if (userDao.existsById(userId)) {
+            return bankAccountDao.findAllByUserId(userId);
+        }
+        return null;
     }
 }

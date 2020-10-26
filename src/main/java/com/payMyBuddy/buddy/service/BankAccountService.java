@@ -12,4 +12,6 @@ public interface BankAccountService {
     boolean deleteBankAccount(BankAccount bankAccount);
 
     List<BankAccount> getBankAccounts();
+
+    List<BankAccount> getBankAccountsByUserId(Integer user);
 }

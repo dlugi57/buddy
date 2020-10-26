@@ -92,6 +92,31 @@ public class BankAccountController {
         logger.info("DELETE Bank Account -> deleteBankAccount /**/ HttpStatus : " + HttpStatus.OK);
     }
 
+    /**
+     * Get bank accounts by user id
+     *
+     * @param user id of user
+     * @return List of bank accounts
+     */
+    @GetMapping(value = "/bankAccounts/{user}")
+    public List<BankAccount> getBankAccountsByUserId(@PathVariable Integer user) {
+        List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByUserId(user);
+
+        if (bankAccounts == null || bankAccounts.isEmpty()) {
+
+            logger.error("GET bankAccounts -> getBankAccountsByUserId /**/ HttpStatus : " + HttpStatus.NOT_FOUND
+                    + " /**/ Message : User with this id " + user + " don't exist or this user " +
+                    "don't have bank account");
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "User with this id " + user + " don't exist or this user don't have bank account");
+        }
+
+        logger.info("GET bankAccounts -> getBankAccountsByUserId /**/ HttpStatus : " + HttpStatus.OK +
+                " /**/ Result : '{}'.", bankAccounts.toString());
+
+        return bankAccounts;
+    }
 
     /**
      * Get all bank accounts
