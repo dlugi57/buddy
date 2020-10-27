@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
@@ -30,7 +31,9 @@ public class User implements Serializable {
     private String email;
 
     private String password;
-    // TODO: 24/10/2020 how to forbidden this value in creation ? 
+    // TODO: 24/10/2020 test it  ?
+    //@Column(columnDefinition = "int default 0")
+    //@Null
     private Double wallet;
 
 /*    @OneToMany

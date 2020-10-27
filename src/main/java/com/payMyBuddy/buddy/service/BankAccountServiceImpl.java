@@ -1,10 +1,8 @@
 package com.payMyBuddy.buddy.service;
 
-import com.payMyBuddy.buddy.controller.UserController;
 import com.payMyBuddy.buddy.dao.BankAccountDao;
 import com.payMyBuddy.buddy.dao.UserDao;
 import com.payMyBuddy.buddy.model.BankAccount;
-import com.payMyBuddy.buddy.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,9 +107,14 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccountDao.findAll();
     }
 
+    /**
+     * Get bank accounts  by user id
+     * @param userId user id
+     *
+     * @return list of bank accounts
+     */
     @Override
     public List<BankAccount> getBankAccountsByUserId(Integer userId) {
-       // User user = userDao.getById(userId);
 
         if (userDao.existsById(userId)) {
             return bankAccountDao.findAllByUserId(userId);

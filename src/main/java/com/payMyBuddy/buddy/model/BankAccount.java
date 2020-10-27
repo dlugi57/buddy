@@ -19,7 +19,7 @@ public class BankAccount implements Serializable {
     @NotNull
     private String name;
 
-    // TODO: 26/10/2020 how to make not null only for id and should I add ,cascade = CascadeType.MERGE
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 

@@ -1,6 +1,5 @@
 package com.payMyBuddy.buddy.service;
 
-import com.payMyBuddy.buddy.controller.UserController;
 import com.payMyBuddy.buddy.dao.UserDao;
 import com.payMyBuddy.buddy.model.User;
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * User data manipulation
@@ -41,16 +41,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean addUser(User user) {
-        // TODO: 24/10/2020 how to do this in proper way?
-        try {
-            if (userDao.save(user).getId() > 0) {
-                return true;
-            }
-        } catch (Exception e) {
-            logger.info(e.toString());
-        }
-
-        return false;
+        return userDao.save(user).getId() > 0;
     }
 
 
@@ -62,16 +53,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean updateUser(User user) {
-        // TODO: 24/10/2020 how to do this in proper way?
         if (userDao.existsByEmail(user.getEmail())) {
-            try {
 
-                if (userDao.save(user).getId() > 0) {
-                    return true;
-                }
-            } catch (Exception e) {
-                logger.info(e.toString());
-            }
+            return userDao.save(user).getId() > 0;
+
         }
         return false;
     }
@@ -107,12 +92,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User connectUser(String email, String password) {
 
-        User user = userDao.getByEmail(email);
+        Optional<User> user = userDao.getByEmail(email);
 
-        if (user != null) {
-            if (user.getPassword().equals(password)) {
-                return user;
-            }
+        if (user.isPresent() && user.get().getPassword().equals(password)) {
+            return user.get();
         }
 
         return null;
