@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class BankTransfer {
 
-    public static final double FEES_OF_TRANSFER = 0.95;
+    public static final double FEES_OF_TRANSFER = 0.995;
 
     @Id
     @GeneratedValue

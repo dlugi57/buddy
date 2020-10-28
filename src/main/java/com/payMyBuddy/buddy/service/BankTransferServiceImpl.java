@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -40,13 +42,19 @@ public class BankTransferServiceImpl implements BankTransferService {
         this.bankTransferDao = bankTransferDao;
     }
 
-
+    /**
+     * Make bank transfer
+     * When amount is positive the transfer is incoming when is negative the transfer is exiting
+     *
+     * @param bankTransfer bank transfer object
+     * @return true if success
+     */
     @Override
-    public Integer addBankTransfer(BankTransfer bankTransfer) {
+    public boolean addBankTransfer(BankTransfer bankTransfer) {
 
         Optional<BankAccount> bankAccount =
                 bankAccountDao.getById(bankTransfer.getBankAccount().getId());
-
+        // check if bank transfer exist
         if (!bankAccount.isPresent()) {
 
             logger.error("There is no bank account with this id");
@@ -54,39 +62,75 @@ public class BankTransferServiceImpl implements BankTransferService {
         }
 
         User user = userDao.getById(bankAccount.get().getUser().getId());
-
+        //if amount is 0 send error
         if (bankTransfer.getAmount() == 0) {
             logger.error("Amount of transfer is wrong");
             throw new NoSuchElementException("Amount of transfer is wrong");
         }
+        // when is negative exiting transfer
+        if (bankTransfer.getAmount() < 0) {
 
-        if (bankTransfer.getAmount() < 0){
+            if (user.getWallet() == null || (user.getWallet() + bankTransfer.getAmount()) < 0) {
+                logger.error("There is not enough money to do this transfer");
+                throw new NoSuchElementException("There is not enough money to do this transfer");
+            } else {
+                user.setWallet(user.getWallet() + bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
+            }
 
+            bankTransfer.setTransferType(TransferType.EXITING);
         }
-
-        // TODO: 28/10/2020 make this easier with minus  
-        if (bankTransfer.getTransferType().equals(TransferType.INCOMING)){
+        // incoming transfer
+        else {
+            // when wallet is null just add amount
             if (user.getWallet() != null) {
                 user.setWallet(user.getWallet() + bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
-
             } else {
                 user.setWallet(bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
             }
-        }else if (bankTransfer.getTransferType().equals(TransferType.EXITING)){
-            
-        }else{
-            logger.error("Unknown transfer type");
-            throw new NoSuchElementException("Unknown transfer type");
+            // set type
+            bankTransfer.setTransferType(TransferType.INCOMING);
         }
-            
-        
-
-
-
+        // save objects
         userDao.save(user);
+        bankTransferDao.save(bankTransfer);
 
-        //bankTransferDao.save(bankTransfer).getId();
-// TODO: 28/10/2020 when i save bank transfer the enum type is 0 even if is excacly the same
-        return bankTransferDao.save(bankTransfer).getId();
+        return true;
     }
+
+    /**
+     * Get all bank transfers
+     *
+     * @return list of bank transfers
+     */
+    @Override
+    public List<BankTransfer> getBankTransfers() {
+        return bankTransferDao.findAll();
+    }
+
+
+    /**
+     * Get bank transfer  by user id
+     *
+     * @param userId user id
+     * @return list of bank transfers
+     */
+    @Override
+    public List<BankTransfer> getBankTransferByUserId(Integer userId) {
+        List<BankTransfer> bankTransfers = new ArrayList<>();
+        // check if user exist
+        if (userDao.existsById(userId)) {
+            // get all bank accounts
+            List<BankAccount> bankAccounts = bankAccountDao.findAllByUserId(userId);
+            if (bankAccounts != null && !bankAccounts.isEmpty()) {
+                // get all bank transfers by bank accounts id
+                for (BankAccount bankAccount : bankAccounts) {
+                    bankTransfers.addAll(bankTransferDao.findAllByBankAccountId(bankAccount.getId()));
+                }
+                return bankTransfers;
+            }
+        }
+        return null;
+    }
+
+
 }
