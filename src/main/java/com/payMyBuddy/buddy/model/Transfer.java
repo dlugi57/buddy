@@ -3,7 +3,6 @@ package com.payMyBuddy.buddy.model;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -49,9 +50,8 @@ public class TransferServiceImpl implements TransferService {
             throw new NoSuchElementException("There is no users with this ids");
         }
 
+        // check if destination user exist in contact list
         if (!user.get().getContacts().contains(userDestination.get())) {
-
-
             logger.error("Destination user is not in your contact list");
             throw new NoSuchElementException("Destination user is not in your contact list");
         }
@@ -62,6 +62,7 @@ public class TransferServiceImpl implements TransferService {
             throw new NoSuchElementException("Amount of transfer is wrong");
         }
 
+        // if user don't have enough money
         if (user.get().getWallet() == null || (user.get().getWallet() - transfer.getAmount()) < 0) {
             logger.error("There is not enough money to do this transfer");
             throw new NoSuchElementException("There is not enough money to do this transfer");
@@ -70,18 +71,42 @@ public class TransferServiceImpl implements TransferService {
         // get amount of money of user to transfer
         user.get().setWallet(user.get().getWallet() - transfer.getAmount() * Transfer.FEES_OF_TRANSFER);
 
-
+        // if wallet null create it if not add amount
         if (userDestination.get().getWallet() != null) {
             userDestination.get().setWallet(userDestination.get().getWallet() + transfer.getAmount());
         } else {
             userDestination.get().setWallet(transfer.getAmount());
         }
 
+        // save objects
         userDao.save(user.get());
         userDao.save(userDestination.get());
-
         transferDao.save(transfer);
 
         return true;
+    }
+
+    /**
+     * Get all transfers
+     *
+     * @return list of  transfers
+     */
+    @Override
+    public List<Transfer> getTransfers() {
+        return transferDao.findAll();
+    }
+
+    /**
+     * Get transfer by user id
+     *
+     * @param userId user id
+     * @return list of transfers
+     */
+    @Override
+    public List<Transfer> getTransfersByUserId(Integer userId) {
+        if (userDao.existsById(userId)) {
+            return transferDao.findAllByFromUserId(userId);
+        }
+        return null;
     }
 }

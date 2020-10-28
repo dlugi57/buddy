@@ -7,9 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,13 +29,8 @@ public class User implements Serializable {
     private String email;
 
     private String password;
-    // TODO: 24/10/2020 test it  ?
-    //@Column(columnDefinition = "int default 0")
-    //@Null
-    private Double wallet;
 
-/*    @OneToMany
-    private List<BankAccount> bankAccounts;*/
+    private Double wallet;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<User> contacts;
@@ -109,14 +102,6 @@ public class User implements Serializable {
     public void setWallet(Double wallet) {
         this.wallet = wallet;
     }
-
-/*    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
-    }
-
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
-    }*/
 
     public List<User> getContacts() {
         return contacts;
