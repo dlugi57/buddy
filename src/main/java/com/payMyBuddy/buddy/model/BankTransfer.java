@@ -24,6 +24,7 @@ public class BankTransfer {
     private BankAccount bankAccount;
 
     private TransferType transferType;
+
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;

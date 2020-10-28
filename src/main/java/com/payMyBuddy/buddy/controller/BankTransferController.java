@@ -18,7 +18,7 @@ import java.util.List;
 public class BankTransferController {
 
     static final Logger logger = LogManager
-            .getLogger(UserController.class);
+            .getLogger(BankTransferController.class);
 
     // Service initialization
     UserService userService;
@@ -52,10 +52,9 @@ public class BankTransferController {
         if (!bankTransferService.addBankTransfer(bankTransfer)) {
             logger.error("POST bankTransfer -> " +
                     "addBankTransfer /**/ HttpStatus : " + HttpStatus.CONFLICT + " /**/ Message : " +
-                    " This Bank Account already exist or there is no users with this id");
+                    " There is no bank account to make transfer");
 
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "This bank account already " +
-                    "exist or there is no users with this id");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, " There is no bank account to make transfer");
         }
 
         logger.info("POST bankTransfer -> addBankTransfer /**/ HttpStatus : " + HttpStatus.CREATED);

@@ -16,10 +16,10 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
     Optional<User> getByEmail(String email);
 
-    //Optional<User> getById(Integer userId);
+    Optional<User> getById(Integer userId);
 
     //User getByEmail(String email);
 
 
-    User getById(Integer userId);
+    //User getById(Integer userId);
 }

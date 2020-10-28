@@ -34,6 +34,8 @@ public class BankTransferServiceImpl implements BankTransferService {
      * Field injection of bank account dao
      *
      * @param bankAccountDao bank account dao
+     * @param userDao user dao
+     * @param bankTransferDao bank transfer dao
      */
     @Autowired
     public void setBankTransferDao(BankAccountDao bankAccountDao, UserDao userDao, BankTransferDao bankTransferDao) {
@@ -61,7 +63,7 @@ public class BankTransferServiceImpl implements BankTransferService {
             throw new NoSuchElementException("There is no bank account with this id");
         }
 
-        User user = userDao.getById(bankAccount.get().getUser().getId());
+        Optional<User>  user = userDao.getById(bankAccount.get().getUser().getId());
         //if amount is 0 send error
         if (bankTransfer.getAmount() == 0) {
             logger.error("Amount of transfer is wrong");
@@ -70,11 +72,11 @@ public class BankTransferServiceImpl implements BankTransferService {
         // when is negative exiting transfer
         if (bankTransfer.getAmount() < 0) {
 
-            if (user.getWallet() == null || (user.getWallet() + bankTransfer.getAmount()) < 0) {
+            if (user.get().getWallet() == null || (user.get().getWallet() + bankTransfer.getAmount()) < 0) {
                 logger.error("There is not enough money to do this transfer");
                 throw new NoSuchElementException("There is not enough money to do this transfer");
             } else {
-                user.setWallet(user.getWallet() + bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
+                user.get().setWallet(user.get().getWallet() + bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
             }
 
             bankTransfer.setTransferType(TransferType.EXITING);
@@ -82,16 +84,16 @@ public class BankTransferServiceImpl implements BankTransferService {
         // incoming transfer
         else {
             // when wallet is null just add amount
-            if (user.getWallet() != null) {
-                user.setWallet(user.getWallet() + bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
+            if (user.get().getWallet() != null) {
+                user.get().setWallet(user.get().getWallet() + bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
             } else {
-                user.setWallet(bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
+                user.get().setWallet(bankTransfer.getAmount() * BankTransfer.FEES_OF_TRANSFER);
             }
             // set type
             bankTransfer.setTransferType(TransferType.INCOMING);
         }
         // save objects
-        userDao.save(user);
+        userDao.save(user.get());
         bankTransferDao.save(bankTransfer);
 
         return true;

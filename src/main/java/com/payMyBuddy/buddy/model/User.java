@@ -39,7 +39,7 @@ public class User implements Serializable {
 /*    @OneToMany
     private List<BankAccount> bankAccounts;*/
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<User> contacts;
 
 
