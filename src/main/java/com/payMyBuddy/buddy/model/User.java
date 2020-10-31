@@ -1,6 +1,11 @@
 package com.payMyBuddy.buddy.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,12 +16,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Proxy(lazy = false)
-
+@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id")
+@JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
+   // private static final long serialVersionUID = 5727638570064420003L;
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String firstName;
@@ -32,28 +43,16 @@ public class User implements Serializable {
 
     private Double wallet;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    //@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<User> contacts;
-
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", wallet=" + wallet +
-                //", bankAccounts=" + bankAccounts +
-                ", contacts=" + contacts +
-                ", creationDate=" + creationDate +
-                '}';
-    }
+
+
 
     public Integer getId() {
         return id;
@@ -118,5 +117,6 @@ public class User implements Serializable {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
 
 }

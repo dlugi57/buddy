@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Proxy(lazy = false)
-public class BankAccount implements Serializable {
+public class BankAccount{
     @Id
     @GeneratedValue
     private Integer id;
