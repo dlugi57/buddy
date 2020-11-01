@@ -1,9 +1,10 @@
 package com.payMyBuddy.buddy.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.payMyBuddy.buddy.config.Views;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Proxy;
@@ -21,10 +22,8 @@ import java.util.List;
 @Entity
 @Proxy(lazy = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-//@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id")
-@JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
-   // private static final long serialVersionUID = 5727638570064420003L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,16 +42,15 @@ public class User implements Serializable {
 
     private Double wallet;
 
-    //@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
-    @ManyToMany(fetch = FetchType.LAZY)
+    // TODO: 01/11/2020 WTF
+    @JsonIgnore
+    //@JsonView(Views.Public.class)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<User> contacts;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-
-
-
 
     public Integer getId() {
         return id;

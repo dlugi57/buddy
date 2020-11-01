@@ -1,5 +1,7 @@
 package com.payMyBuddy.buddy.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.payMyBuddy.buddy.config.Views;
 import com.payMyBuddy.buddy.model.User;
 import com.payMyBuddy.buddy.service.UserService;
 import org.apache.logging.log4j.LogManager;

@@ -69,7 +69,7 @@ public class TransferServiceImpl implements TransferService {
         }
 
         // get amount of money of user to transfer
-        user.get().setWallet(user.get().getWallet() - transfer.getAmount() * Transfer.FEES_OF_TRANSFER);
+        user.get().setWallet(user.get().getWallet() - (transfer.getAmount() * Transfer.FEES_OF_TRANSFER+ transfer.getAmount() ));
 
         // if wallet null create it if not add amount
         if (userDestination.get().getWallet() != null) {

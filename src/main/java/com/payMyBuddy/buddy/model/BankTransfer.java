@@ -4,18 +4,18 @@ import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Proxy(lazy = false)
-
-public class BankTransfer {
+public class BankTransfer implements Serializable {
 
     public static final double FEES_OF_TRANSFER = 0.995;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Double amount;

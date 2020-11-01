@@ -3,15 +3,16 @@ package com.payMyBuddy.buddy.model;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Transfer {
+public class Transfer implements Serializable {
 
     public static final double FEES_OF_TRANSFER = 0.005;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Double amount;

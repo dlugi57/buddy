@@ -1,2 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `paymybuddy` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-- -----------------------------------------------------
+-- Schema
+-- -----------------------------------------------------
+CREATE DATABASE  IF NOT EXISTS `paymybuddy` DEFAULT CHARACTER SET utf8;
 USE `paymybuddy`;
