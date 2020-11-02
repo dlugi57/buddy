@@ -1,7 +1,5 @@
 package com.payMyBuddy.buddy.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.payMyBuddy.buddy.config.Views;
 import com.payMyBuddy.buddy.model.User;
 import com.payMyBuddy.buddy.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -112,8 +110,8 @@ public class UserController {
     /**
      * Connect user
      *
-     * @param email email
-     * @param password  password
+     * @param email    email
+     * @param password password
      * @return User object
      */
     @GetMapping(value = "/user")
@@ -131,6 +129,7 @@ public class UserController {
         logger.info("GET person -> getPersonByFirstNameAndLastName /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", user.toString());
         return user;
     }
+
     /**
      * Get all users
      *
