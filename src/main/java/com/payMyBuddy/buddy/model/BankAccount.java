@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Proxy(lazy = false)
 public class BankAccount{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
