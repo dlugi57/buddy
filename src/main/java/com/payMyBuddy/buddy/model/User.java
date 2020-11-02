@@ -50,6 +50,14 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    public Date getCreationDate() {
+        return (Date)creationDate.clone();
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = (Date)creationDate.clone();
+    }
+/*
     public Integer getId() {
         return id;
     }
@@ -114,5 +122,5 @@ public class User implements Serializable {
         this.creationDate = creationDate;
     }
 
-
+*/
 }

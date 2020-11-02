@@ -1,14 +1,18 @@
 package com.payMyBuddy.buddy.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity
 @Proxy(lazy = false)
-public class BankAccount{
+public class BankAccount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,7 +22,6 @@ public class BankAccount{
 
     @NotNull
     private String name;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -33,7 +36,8 @@ public class BankAccount{
                 '}';
     }
 
-    public Integer getId() {
+
+/*    public Integer getId() {
         return id;
     }
 
@@ -63,5 +67,5 @@ public class BankAccount{
 
     public void setUser(User user) {
         this.user = user;
-    }
+    }*/
 }
