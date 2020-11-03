@@ -1,7 +1,5 @@
 package com.payMyBuddy.buddy.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.payMyBuddy.buddy.config.Views;
 import com.payMyBuddy.buddy.model.BankTransfer;
 import com.payMyBuddy.buddy.service.BankAccountService;
 import com.payMyBuddy.buddy.service.BankTransferService;
