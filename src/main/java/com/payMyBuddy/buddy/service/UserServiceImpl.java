@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-
     /**
      * Add users
      *
@@ -43,7 +42,6 @@ public class UserServiceImpl implements UserService {
     public boolean addUser(User user) {
         return userDao.save(user).getId() > 0;
     }
-
 
     /**
      * Update user
@@ -100,8 +98,6 @@ public class UserServiceImpl implements UserService {
 
         return null;
     }
-
-
 
     /**
      * Get all users
