@@ -62,10 +62,8 @@ public class BankAccountServiceImpl implements BankAccountService {
      */
     @Override
     public boolean updateBankAccount(BankAccount bankAccount) {
-        // TODO: 24/10/2020 how to do this in proper way?
         if (bankAccountDao.existsByNumber(bankAccount.getNumber())) {
             try {
-
                 if (bankAccountDao.save(bankAccount).getId() > 0) {
                     return true;
                 }
