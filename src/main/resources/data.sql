@@ -14,25 +14,11 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `contacts`;
 CREATE TABLE `contacts` (
-                            `user_id` int NOT NULL,
-                            `contact_id` int NOT NULL,
-                            PRIMARY KEY (`contact_id`,`user_id`)
+  `user_id` int NOT NULL,
+  `contact_id` int NOT NULL,
+  PRIMARY KEY (`contact_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
-
-
-
-
-/*DROP TABLE IF EXISTS `user_contacts`;
-CREATE TABLE `user_contacts` (
-  `user_id` int NOT NULL,
-  `contacts_id` int NOT NULL*//*,*/
-/*  KEY `FKbgjq1pj3f4kamou79l7cl87ne` (`contacts_id`),
-  KEY `FKmo0c5ro6kunnfq71x4bcwb9eh` (`user_id`),*/
-  /*CONSTRAINT `FKbgjq1pj3f4kamou79l7cl87ne` FOREIGN KEY (`contacts_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FKmo0c5ro6kunnfq71x4bcwb9eh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)*/
-/*) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
 
 --
 -- Table structure for table `bank_account`
@@ -44,9 +30,7 @@ CREATE TABLE `bank_account` (
   `name` varchar(255) NOT NULL,
   `number` varchar(255) NOT NULL,
   `user_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)/*,
-  KEY `FK92iik4jwhk7q385jubl2bc2mm` (`user_id`),*/
-  /*CONSTRAINT `FK92iik4jwhk7q385jubl2bc2mm` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)*/
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -61,9 +45,7 @@ CREATE TABLE `bank_transfer` (
   `description` varchar(255) DEFAULT NULL,
   `transfer_type` int DEFAULT NULL,
   `bank_account_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)/*,
-  KEY `FK175t1a2rxuav4nphc1pdikk6e` (`bank_account_id`),*/
-  /*CONSTRAINT `FK175t1a2rxuav4nphc1pdikk6e` FOREIGN KEY (`bank_account_id`) REFERENCES `bank_account` (`id`)*/
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -78,11 +60,7 @@ CREATE TABLE `transfer` (
   `description` varchar(255) DEFAULT NULL,
   `from_user_id` int DEFAULT NULL,
   `to_user_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)/*,
-  KEY `FKmxrdu03dy9fhi2nb0toxx3jqy` (`from_user_id`),
-  KEY `FKmsjil4f334lasokc5hs79x37t` (`to_user_id`),*/
-  /*CONSTRAINT `FKmsjil4f334lasokc5hs79x37t` FOREIGN KEY (`to_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FKmxrdu03dy9fhi2nb0toxx3jqy` FOREIGN KEY (`from_user_id`) REFERENCES `user` (`id`)*/
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -214,3 +192,4 @@ INSERT INTO `transfer` VALUES
     (4,1000,'2020-10-31 23:40:25.729000','TRANSFER4',3,1),
     (5,1000,'2020-10-31 23:40:33.142000','TRANSFER5',3,2);
 
+COMMIT;
