@@ -91,9 +91,9 @@ public class UserController {
     }
 
     /**
-     * Delete medical record
+     * Delete user
      *
-     * @param user user record object
+     * @param user user object
      */
     @DeleteMapping(value = "/user")
     @ResponseStatus(HttpStatus.OK)
