@@ -14,4 +14,5 @@ public interface UserService {
     boolean deleteUser(User user);
 
     User connectUser(String email, String password);
+
 }
