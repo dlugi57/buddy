@@ -9,4 +9,8 @@ public interface ContactsService {
     boolean addContact(Contacts contact);
 
     List<Contacts> getContacts();
+
+    List<Contacts> getContactsByUserId(Integer userId);
+
+    boolean deleteContact(Contacts contact);
 }

@@ -1,6 +1,8 @@
 package com.payMyBuddy.buddy.config;
 
 import com.payMyBuddy.buddy.model.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,15 +10,17 @@ import java.util.Objects;
 /**
  * This class serves to create composite primary key for contacts
  */
+@Getter
+@Setter
 public class ContactsId implements Serializable {
-    private User user;
+    private Integer user;
 
-    private User contact;
+    private Integer contact;
 
     public ContactsId() {
     }
 
-    public ContactsId(User user, User contact) {
+    public ContactsId(Integer user, Integer contact) {
         this.user = user;
         this.contact = contact;
     }

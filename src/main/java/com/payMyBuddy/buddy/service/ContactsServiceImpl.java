@@ -1,5 +1,6 @@
 package com.payMyBuddy.buddy.service;
 
+import com.payMyBuddy.buddy.config.ContactsId;
 import com.payMyBuddy.buddy.dao.ContactsDao;
 import com.payMyBuddy.buddy.dao.UserDao;
 import com.payMyBuddy.buddy.model.Contacts;
@@ -9,6 +10,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,6 +35,13 @@ public class ContactsServiceImpl implements ContactsService {
     public void setUserDao(ContactsDao contactsDao) {
         this.contactsDao = contactsDao;
     }
+
+    /**
+     * Add contact
+     *
+     * @param contact contact object
+     * @return true when success
+     */
     @Override
     public boolean addContact(Contacts contact) {
         try {
@@ -43,14 +54,52 @@ public class ContactsServiceImpl implements ContactsService {
         return false;
 
     }
-    /**
-     * Get all users
-     *
-     * @return List of all users
-     */
 
+    /**
+     * Get all contacts
+     *
+     * @return List of all contacts
+     */
     @Override
     public List<Contacts> getContacts() {
         return contactsDao.findAll();
     }
+
+    /**
+     * Get contacts by user id
+     *
+     * @return List of contacts
+     */
+    @Override
+    public List<Contacts> getContactsByUserId(Integer userId) {
+
+        return contactsDao.findAllByUserId(userId);
+    }
+
+    /**
+     * Delete contact
+     *
+     * @param contact contact object
+     * @return true when success
+     */
+    @Override
+    public boolean deleteContact(Contacts contact) {
+
+        List<Contacts> contacts = getContactsByUserId(contact.getUser().getId());
+        for (Contacts contact1: contacts){
+            if (contact1.getContact().getId().equals(contact.getContact().getId()) ){
+                try {
+                    contactsDao.delete(contact);
+
+                    return true;
+
+                } catch (Exception e) {
+                    logger.info(e.toString());
+                }
+            }
+        }
+
+        return false;
+        }
+
 }

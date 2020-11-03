@@ -65,6 +65,46 @@ public class ContactController {
     }
 
     /**
+     * Delete contact
+     *
+     * @param contact contact object
+     */
+    @DeleteMapping(value = "/contact")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteContact(@Valid @RequestBody Contacts contact) {
+        // if there is no medical record send status and error message
+        if (!contactsService.deleteContact(contact)) {
+            logger.error("DELETE contact -> deleteContact /**/ Result : " + HttpStatus.NOT_FOUND
+                    + " /**/ Message : This contact don't exist : '{}'.", contact.toString());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user don't exist");
+        }
+        logger.info("DELETE contact -> deleteContact /**/ HttpStatus : " + HttpStatus.OK);
+    }
+
+    /**
+     * Get contacts by user id
+     *
+     * @param user id of user
+     * @return List of contacts
+     */
+    @GetMapping(value = "/contacts/{user}")
+    public List<Contacts> getContactsByUserId(@PathVariable Integer user) {
+        List<Contacts> contacts = contactsService.getContactsByUserId(user);
+
+        if (contacts == null || contacts.isEmpty()) {
+
+            logger.error("GET contacts -> getContactsByUserId /**/ Result : " + HttpStatus.NOT_FOUND + " /**/ " +
+                    "Message : There is no contacts in the data base");
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no contacts in the " +
+                    "data base");
+        }
+        logger.info("GET contacts -> getContactsByUserId /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", contacts.toString());
+
+        return contacts;
+    }
+
+    /**
      * Get all contacts
      *
      * @return List of contacts
