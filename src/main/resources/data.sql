@@ -12,15 +12,27 @@ USE `paymybuddy`;*/
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP TABLE IF EXISTS `user_contacts`;
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE `contacts` (
+                            `user_id` int NOT NULL,
+                            `contact_id` int NOT NULL,
+                            PRIMARY KEY (`contact_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+
+
+
+/*DROP TABLE IF EXISTS `user_contacts`;
 CREATE TABLE `user_contacts` (
   `user_id` int NOT NULL,
-  `contacts_id` int NOT NULL/*,*/
+  `contacts_id` int NOT NULL*//*,*/
 /*  KEY `FKbgjq1pj3f4kamou79l7cl87ne` (`contacts_id`),
   KEY `FKmo0c5ro6kunnfq71x4bcwb9eh` (`user_id`),*/
   /*CONSTRAINT `FKbgjq1pj3f4kamou79l7cl87ne` FOREIGN KEY (`contacts_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKmo0c5ro6kunnfq71x4bcwb9eh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)*/
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
 
 --
 -- Table structure for table `bank_account`
@@ -91,12 +103,11 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Table keys for table `user_contacts`
+-- Table keys for table `contacts`
 --
 
-ALTER TABLE `user_contacts`
-  ADD KEY `FKbgjq1pj3f4kamou79l7cl87ne` (`contacts_id`),
-  ADD KEY `FKmo0c5ro6kunnfq71x4bcwb9eh` (`user_id`);
+ALTER TABLE `contacts`
+  ADD KEY `FKf9pc3faerry2wp3xnahv2b0rg` (`user_id`);
 
 --
 -- Table keys for table `bank_account`
@@ -124,9 +135,9 @@ ALTER TABLE `transfer`
 -- Table secondary keys for table `user_contacts`
 --
 
-ALTER TABLE `user_contacts`
-  ADD CONSTRAINT `FKbgjq1pj3f4kamou79l7cl87ne` FOREIGN KEY (`contacts_id`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `FKmo0c5ro6kunnfq71x4bcwb9eh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `contacts`
+  ADD CONSTRAINT `FKrs3dlygg4whsg3wi9eiuh58m7` FOREIGN KEY (`contact_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FKf9pc3faerry2wp3xnahv2b0rg` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Table secondary keys for table `bank_account`
@@ -162,10 +173,10 @@ INSERT INTO `user` VALUES
     (5,'2020-10-31 23:20:31.454000','user5@email.com','UserFirstName5','UserLastName5','password5',8955);
 
 --
--- Dumping data for table `user_contacts`
+-- Dumping data for table `contacts`
 --
 
-INSERT INTO `user_contacts` VALUES
+INSERT INTO `contacts` VALUES
     (1,2),(1,3),(1,4),(1,5),(2,1),(2,3),(2,4),(2,5),(3,1),(3,2),(3,4),(3,5);
 
 --
