@@ -1,5 +1,3 @@
-/*CREATE DATABASE  IF NOT EXISTS `paymybuddy` DEFAULT CHARACTER SET utf8;
-USE `paymybuddy`;*/
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: paymybuddy
@@ -7,7 +5,7 @@ USE `paymybuddy`;*/
 -- Server version	8.0.22
 
 --
--- Table structure for table `user_contacts`
+-- Table structure for table `contacts`
 --
 START TRANSACTION;
 SET time_zone = "+00:00";

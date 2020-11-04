@@ -1,26 +1,23 @@
-/*CREATE DATABASE  IF NOT EXISTS `paymybuddy` DEFAULT CHARACTER SET utf8;
-USE `paymybuddy`;*/
+
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
--- Host: localhost    Database: paymybuddy
+-- Host: localhost    Database: paymybuddyTest
 -- ------------------------------------------------------
 -- Server version	8.0.22
 
 --
--- Table structure for table `user_contacts`
+-- Table structure for table `contacts`
 --
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP TABLE IF EXISTS `user_contacts`;
-CREATE TABLE `user_contacts` (
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE `contacts` (
   `user_id` int NOT NULL,
-  `contacts_id` int NOT NULL/*,*/
-/*  KEY `FKbgjq1pj3f4kamou79l7cl87ne` (`contacts_id`),
-  KEY `FKmo0c5ro6kunnfq71x4bcwb9eh` (`user_id`),*/
-  /*CONSTRAINT `FKbgjq1pj3f4kamou79l7cl87ne` FOREIGN KEY (`contacts_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FKmo0c5ro6kunnfq71x4bcwb9eh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)*/
+  `contact_id` int NOT NULL,
+  PRIMARY KEY (`contact_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 --
 -- Table structure for table `bank_account`
@@ -32,9 +29,7 @@ CREATE TABLE `bank_account` (
   `name` varchar(255) NOT NULL,
   `number` varchar(255) NOT NULL,
   `user_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)/*,
-  KEY `FK92iik4jwhk7q385jubl2bc2mm` (`user_id`),*/
-  /*CONSTRAINT `FK92iik4jwhk7q385jubl2bc2mm` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)*/
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -49,9 +44,7 @@ CREATE TABLE `bank_transfer` (
   `description` varchar(255) DEFAULT NULL,
   `transfer_type` int DEFAULT NULL,
   `bank_account_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)/*,
-  KEY `FK175t1a2rxuav4nphc1pdikk6e` (`bank_account_id`),*/
-  /*CONSTRAINT `FK175t1a2rxuav4nphc1pdikk6e` FOREIGN KEY (`bank_account_id`) REFERENCES `bank_account` (`id`)*/
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -66,11 +59,7 @@ CREATE TABLE `transfer` (
   `description` varchar(255) DEFAULT NULL,
   `from_user_id` int DEFAULT NULL,
   `to_user_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)/*,
-  KEY `FKmxrdu03dy9fhi2nb0toxx3jqy` (`from_user_id`),
-  KEY `FKmsjil4f334lasokc5hs79x37t` (`to_user_id`),*/
-  /*CONSTRAINT `FKmsjil4f334lasokc5hs79x37t` FOREIGN KEY (`to_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FKmxrdu03dy9fhi2nb0toxx3jqy` FOREIGN KEY (`from_user_id`) REFERENCES `user` (`id`)*/
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -91,12 +80,11 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Table keys for table `user_contacts`
+-- Table keys for table `contacts`
 --
 
-ALTER TABLE `user_contacts`
-  ADD KEY `FKbgjq1pj3f4kamou79l7cl87ne` (`contacts_id`),
-  ADD KEY `FKmo0c5ro6kunnfq71x4bcwb9eh` (`user_id`);
+ALTER TABLE `contacts`
+  ADD KEY `FKf9pc3faerry2wp3xnahv2b0rg` (`user_id`);
 
 --
 -- Table keys for table `bank_account`
@@ -124,9 +112,9 @@ ALTER TABLE `transfer`
 -- Table secondary keys for table `user_contacts`
 --
 
-ALTER TABLE `user_contacts`
-  ADD CONSTRAINT `FKbgjq1pj3f4kamou79l7cl87ne` FOREIGN KEY (`contacts_id`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `FKmo0c5ro6kunnfq71x4bcwb9eh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `contacts`
+  ADD CONSTRAINT `FKrs3dlygg4whsg3wi9eiuh58m7` FOREIGN KEY (`contact_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FKf9pc3faerry2wp3xnahv2b0rg` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Table secondary keys for table `bank_account`
@@ -162,10 +150,10 @@ INSERT INTO `user` VALUES
     (5,'2020-10-31 23:20:31.454000','user5@email.com','UserFirstName5','UserLastName5','password5',8955);
 
 --
--- Dumping data for table `user_contacts`
+-- Dumping data for table `contacts`
 --
 
-INSERT INTO `user_contacts` VALUES
+INSERT INTO `contacts` VALUES
     (1,2),(1,3),(1,4),(1,5),(2,1),(2,3),(2,4),(2,5),(3,1),(3,2),(3,4),(3,5);
 
 --
@@ -203,3 +191,4 @@ INSERT INTO `transfer` VALUES
     (4,1000,'2020-10-31 23:40:25.729000','TRANSFER4',3,1),
     (5,1000,'2020-10-31 23:40:33.142000','TRANSFER5',3,2);
 
+COMMIT;

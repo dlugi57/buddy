@@ -75,10 +75,10 @@ public class UserController {
         // if user already exist send status and error message
         if (!userService.updateUser(user)) {
             logger.error("POST user -> " +
-                    "updateUser /**/ HttpStatus : " + HttpStatus.CONFLICT + " /**/ Message : " +
+                    "updateUser /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message : " +
                     " This user don't exist");
 
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "This user don't exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user don't exist");
         }
         // create url with new created medical record
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/").queryParam("firstName", user.getFirstName())
@@ -121,12 +121,12 @@ public class UserController {
         User user = userService.connectUser(email, password);
         // if person don't exist send error message
         if (user == null) {
-            logger.error("GET user -> getPersonByFirstNameAndLastName /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  User email " + email + " or password " + password + " are wrong");
+            logger.error("GET user -> connectUser /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  User email " + email + " or password " + password + " are wrong");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Wrong email: " + email + " or password " + password);
         }
 
-        logger.info("GET person -> getPersonByFirstNameAndLastName /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", user.toString());
+        logger.info("GET person -> connectUser /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", user.toString());
         return user;
     }
 

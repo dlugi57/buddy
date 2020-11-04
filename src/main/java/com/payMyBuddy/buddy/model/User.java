@@ -43,6 +43,17 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    public User() {
+
+    }
+    public User(String firstName, String lastName, @Email @NotNull String email, String password, Date creationDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.creationDate = creationDate;
+    }
+
     public Date getCreationDate() {
         return (Date)creationDate.clone();
     }
