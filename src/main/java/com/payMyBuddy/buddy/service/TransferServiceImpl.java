@@ -42,6 +42,12 @@ public class TransferServiceImpl implements TransferService {
         this.contactsDao = contactsDao;
     }
 
+    /**
+     * Add transfer
+     *
+     * @param transfer     transfer object
+     * @return true when success
+     */
     @Override
     public boolean addTransfer(Transfer transfer) {
         Optional<User> user =
