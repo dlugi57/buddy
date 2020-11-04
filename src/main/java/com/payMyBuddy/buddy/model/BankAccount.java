@@ -26,6 +26,15 @@ public class BankAccount implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    public BankAccount() {
+    }
+
+    public BankAccount(@NotNull String number, @NotNull String name, User user) {
+        this.number = number;
+        this.name = name;
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "BankAccount{" +
