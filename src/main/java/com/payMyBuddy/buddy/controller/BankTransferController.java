@@ -21,21 +21,18 @@ public class BankTransferController {
             .getLogger(BankTransferController.class);
 
     // Service initialization
-    UserService userService;
-    BankAccountService bankAccountService;
     BankTransferService bankTransferService;
 
 
     /**
      * Field injection of user service
      *
-     * @param userService initialization of user service
+     * @param bankTransferService initialization of user service
      */
     @Autowired
-    public BankTransferController(UserService userService, BankAccountService bankAccountService,
-                                  BankTransferService bankTransferService) {
-        this.userService = userService;
-        this.bankAccountService = bankAccountService;
+    public BankTransferController(
+            BankTransferService bankTransferService) {
+
         this.bankTransferService = bankTransferService;
     }
 

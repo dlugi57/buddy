@@ -7,8 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
+
 @Getter
 @Setter
 @Entity
@@ -34,12 +34,25 @@ public class BankTransfer implements Serializable {
 
     private String description;
 
+    public BankTransfer() {
+
+    }
+
+    public BankTransfer(Double amount, BankAccount bankAccount, TransferType transferType, Date creationDate, String description) {
+        this.amount = amount;
+        this.bankAccount = bankAccount;
+        this.transferType = transferType;
+        this.creationDate = creationDate;
+        this.description = description;
+    }
+
     public Date getCreationDate() {
-        return (Date)creationDate.clone();
+        return (Date) creationDate.clone();
     }
 
     public void setCreationDate(Date creationDate) {
-        this.creationDate = (Date)creationDate.clone();
+        this.creationDate = (Date) creationDate.clone();
     }
+
 
 }
