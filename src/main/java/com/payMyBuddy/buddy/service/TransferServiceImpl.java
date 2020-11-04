@@ -1,7 +1,9 @@
 package com.payMyBuddy.buddy.service;
 
+import com.payMyBuddy.buddy.dao.ContactsDao;
 import com.payMyBuddy.buddy.dao.TransferDao;
 import com.payMyBuddy.buddy.dao.UserDao;
+import com.payMyBuddy.buddy.model.Contacts;
 import com.payMyBuddy.buddy.model.Transfer;
 import com.payMyBuddy.buddy.model.User;
 import org.apache.logging.log4j.LogManager;
@@ -24,17 +26,20 @@ public class TransferServiceImpl implements TransferService {
     // initialize objects
     TransferDao transferDao;
     UserDao userDao;
+    ContactsDao contactsDao;
 
     /**
      * Field injection of bank account dao
      *
      * @param userDao     user dao
      * @param transferDao transfer dao
+     * @param contactsDao contacts dao
      */
     @Autowired
-    public void setTransferDao(UserDao userDao, TransferDao transferDao) {
+    public void setTransferDao(UserDao userDao, TransferDao transferDao, ContactsDao contactsDao) {
         this.userDao = userDao;
         this.transferDao = transferDao;
+        this.contactsDao = contactsDao;
     }
 
     @Override
@@ -45,13 +50,23 @@ public class TransferServiceImpl implements TransferService {
         Optional<User> userDestination =
                 userDao.getById(transfer.getToUser().getId());
         // check if user exist
-        if (!user.isPresent() && !userDestination.isPresent()) {
+        if (!user.isPresent() || !userDestination.isPresent()) {
             logger.error("There is no users with this ids");
             throw new NoSuchElementException("There is no users with this ids");
         }
 
+        // TODO: 04/11/2020 is better way to do this?
         // check if destination user exist in contact list
-        if (!user.get().getContacts().contains(userDestination.get())) {
+        List<Contacts>  contacts = contactsDao.findAllByUserId(user.get().getId());
+        boolean contactChecker = false;
+        for (Contacts contactCheck: contacts){
+            if (contactCheck.getContact().getId().equals(transfer.getToUser().getId())) {
+                contactChecker = true;
+                break;
+            }
+        }
+
+        if (!contactChecker) {
             logger.error("Destination user is not in your contact list");
             throw new NoSuchElementException("Destination user is not in your contact list");
         }

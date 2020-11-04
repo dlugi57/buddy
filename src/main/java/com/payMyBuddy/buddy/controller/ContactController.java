@@ -89,6 +89,7 @@ public class ContactController {
      */
     @GetMapping(value = "/contacts/{user}")
     public List<Contacts> getContactsByUserId(@PathVariable Integer user) {
+
         List<Contacts> contacts = contactsService.getContactsByUserId(user);
 
         if (contacts == null || contacts.isEmpty()) {

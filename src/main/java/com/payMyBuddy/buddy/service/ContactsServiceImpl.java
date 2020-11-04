@@ -84,10 +84,10 @@ public class ContactsServiceImpl implements ContactsService {
      */
     @Override
     public boolean deleteContact(Contacts contact) {
-
+        // TODO: 04/11/2020 is better way to do this?
         List<Contacts> contacts = getContactsByUserId(contact.getUser().getId());
-        for (Contacts contact1: contacts){
-            if (contact1.getContact().getId().equals(contact.getContact().getId()) ){
+        for (Contacts contactCheck: contacts){
+            if (contactCheck.getContact().getId().equals(contact.getContact().getId()) ){
                 try {
                     contactsDao.delete(contact);
 
