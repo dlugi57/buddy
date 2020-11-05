@@ -34,11 +34,21 @@ public class Transfer implements Serializable {
     private String description;
 
     public Date getCreationDate() {
-        return (Date)creationDate.clone();
+        return (Date) creationDate.clone();
     }
 
     public void setCreationDate(Date creationDate) {
-        this.creationDate = (Date)creationDate.clone();
+        this.creationDate = (Date) creationDate.clone();
     }
 
+    public Transfer() {
+    }
+
+    public Transfer( Double amount, User fromUser, User toUser, Date creationDate, String description) {
+        this.amount = amount;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+        this.creationDate = creationDate;
+        this.description = description;
+    }
 }

@@ -1,11 +1,7 @@
 package com.payMyBuddy.buddy.controller;
 
-import com.payMyBuddy.buddy.model.BankTransfer;
 import com.payMyBuddy.buddy.model.Transfer;
-import com.payMyBuddy.buddy.service.BankAccountService;
-import com.payMyBuddy.buddy.service.BankTransferService;
 import com.payMyBuddy.buddy.service.TransferService;
-import com.payMyBuddy.buddy.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +13,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-
 public class TransferController {
 
 
@@ -25,18 +20,16 @@ public class TransferController {
             .getLogger(TransferController.class);
 
     // Service initialization
-    UserService userService;
     TransferService transferService;
 
 
     /**
      * Field injection of user service
      *
-     * @param userService initialization of user service
+     * @param transferService initialization of transfer service
      */
     @Autowired
-    public TransferController(UserService userService, TransferService transferService) {
-        this.userService = userService;
+    public TransferController(TransferService transferService) {
         this.transferService = transferService;
     }
 
