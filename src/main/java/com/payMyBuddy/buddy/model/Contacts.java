@@ -18,11 +18,20 @@ public class Contacts implements Serializable {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    @JsonIgnore
+   // @JsonIgnore
     private User user;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private User contact;
+
+    public Contacts() {
+
+    }
+
+    public Contacts( User user,  User contact) {
+        this.user = user;
+        this.contact = contact;
+    }
 }

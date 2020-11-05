@@ -1,9 +1,7 @@
 package com.payMyBuddy.buddy.controller;
 
 import com.payMyBuddy.buddy.model.Contacts;
-import com.payMyBuddy.buddy.model.User;
 import com.payMyBuddy.buddy.service.ContactsService;
-import com.payMyBuddy.buddy.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
