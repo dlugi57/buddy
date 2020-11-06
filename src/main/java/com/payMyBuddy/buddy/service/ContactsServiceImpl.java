@@ -1,18 +1,12 @@
 package com.payMyBuddy.buddy.service;
 
-import com.payMyBuddy.buddy.config.ContactsId;
 import com.payMyBuddy.buddy.dao.ContactsDao;
-import com.payMyBuddy.buddy.dao.UserDao;
 import com.payMyBuddy.buddy.model.Contacts;
-import com.payMyBuddy.buddy.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -86,8 +80,11 @@ public class ContactsServiceImpl implements ContactsService {
     public boolean deleteContact(Contacts contact) {
         // TODO: 04/11/2020 is better way to do this?
         List<Contacts> contacts = getContactsByUserId(contact.getUser().getId());
-        for (Contacts contactCheck: contacts){
-            if (contactCheck.getContact().getId().equals(contact.getContact().getId()) ){
+        if (contacts.isEmpty()){
+            return false;
+        }
+        for (Contacts contactCheck : contacts) {
+            if (contactCheck.getContact().getId().equals(contact.getContact().getId())) {
                 try {
                     contactsDao.delete(contact);
 
@@ -100,6 +97,6 @@ public class ContactsServiceImpl implements ContactsService {
         }
 
         return false;
-        }
+    }
 
 }
