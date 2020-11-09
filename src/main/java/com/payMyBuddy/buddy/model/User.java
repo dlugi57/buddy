@@ -1,8 +1,6 @@
 package com.payMyBuddy.buddy.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Proxy;
@@ -46,6 +44,7 @@ public class User implements Serializable {
     public User() {
 
     }
+
     public User(String firstName, String lastName, @Email @NotNull String email, String password, Date creationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -55,10 +54,10 @@ public class User implements Serializable {
     }
 
     public Date getCreationDate() {
-        return (Date)creationDate.clone();
+        return (Date) creationDate.clone();
     }
 
     public void setCreationDate(Date creationDate) {
-        this.creationDate = (Date)creationDate.clone();
+        this.creationDate = (Date) creationDate.clone();
     }
 }
