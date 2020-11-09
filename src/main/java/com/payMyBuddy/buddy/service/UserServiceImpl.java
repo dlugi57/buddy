@@ -40,7 +40,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean addUser(User user) {
-        return userDao.save(user).getId() > 0;
+
+        try {
+            if (userDao.save(user).getId() > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            logger.info(e.toString());
+        }
+
+        return false;
+
+
     }
 
     /**
