@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,6 @@ class BankAccountServiceTest {
     @MockBean
     UserDao userDao;
 
-    ObjectMapper mapper = new ObjectMapper();
     static Date today = new Date();
     public static User user = new User("John", "Boyd", "jaboyd@email.com", "password", today);
 
@@ -93,18 +93,6 @@ class BankAccountServiceTest {
 
     @Test
     void updateBankAccount_Exist() {
-        // GIVEN
-        given(bankAccountDao.existsByNumber(anyString())).willReturn(false);
-        // WHEN
-        boolean bankAccount = bankAccountService.updateBankAccount(new BankAccount("1234", "BANKNAME", user));
-        // THEN
-        verify(bankAccountDao, times(1)).existsByNumber(anyString());
-
-        assertThat(bankAccount).isEqualTo(false);
-    }
-
-    @Test
-    void updateBankAccount_Invalid() {
         // GIVEN
         given(bankAccountDao.existsByNumber(anyString())).willReturn(false);
         // WHEN
@@ -164,6 +152,17 @@ class BankAccountServiceTest {
         // THEN
         verify(bankAccountDao, times(1)).findAll();
         assertThat(bankAccountsAll.size()).isEqualTo(3);
+    }
+
+    @Test
+    void getBankAccounts_Invalid() {
+        // GIVEN
+        given(bankAccountDao.findAll()).willReturn(Collections.emptyList());
+        // WHEN
+        List<BankAccount> bankAccountsAll = bankAccountService.getBankAccounts();
+        // THEN
+        verify(bankAccountDao, times(1)).findAll();
+        assertThat(bankAccountsAll).isEqualTo(Collections.emptyList());
     }
 
     @Test
