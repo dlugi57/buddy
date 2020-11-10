@@ -1,5 +1,6 @@
 package com.payMyBuddy.buddy.service;
 
+import com.payMyBuddy.buddy.config.ContactsId;
 import com.payMyBuddy.buddy.dao.ContactsDao;
 import com.payMyBuddy.buddy.model.Contacts;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Contacts data manipulation
@@ -78,24 +80,17 @@ public class ContactsServiceImpl implements ContactsService {
      */
     @Override
     public boolean deleteContact(Contacts contact) {
-        // TODO: 04/11/2020 is better way to do this?
-        List<Contacts> contacts = getContactsByUserId(contact.getUser().getId());
-        if (contacts.isEmpty()){
-            return false;
-        }
-        for (Contacts contactCheck : contacts) {
-            if (contactCheck.getContact().getId().equals(contact.getContact().getId())) {
-                try {
-                    contactsDao.delete(contact);
-
-                    return true;
-
-                } catch (Exception e) {
-                    logger.info(e.toString());
-                }
+        try {
+            Contacts contacts = contactsDao.getOne(new ContactsId(contact.getUser().getId(), contact.getContact().getId()));
+            if (contacts.getContact().getId() >= 0 || contacts.getUser().getId() >= 0) {
+                contactsDao.delete(contact);
+                return true;
             }
-        }
 
+        } catch (Exception e) {
+            logger.error("There is no contact like this in DB");
+            throw new NoSuchElementException("There is no contact like this in DB");
+        }
         return false;
     }
 

@@ -1,5 +1,6 @@
 package com.payMyBuddy.buddy.service;
 
+import com.payMyBuddy.buddy.config.ContactsId;
 import com.payMyBuddy.buddy.dao.ContactsDao;
 import com.payMyBuddy.buddy.dao.TransferDao;
 import com.payMyBuddy.buddy.dao.UserDao;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -45,7 +47,7 @@ public class TransferServiceImpl implements TransferService {
     /**
      * Add transfer
      *
-     * @param transfer     transfer object
+     * @param transfer transfer object
      * @return true when success
      */
     @Override
@@ -60,22 +62,17 @@ public class TransferServiceImpl implements TransferService {
             logger.error("There is no users with this ids");
             throw new NoSuchElementException("There is no users with this ids");
         }
-
-        // TODO: 04/11/2020 is better way to do this?
-        // check if destination user exist in contact list
-        List<Contacts>  contacts = contactsDao.findAllByUserId(user.get().getId());
-        boolean contactChecker = false;
-        for (Contacts contactCheck: contacts){
-            if (contactCheck.getContact().getId().equals(transfer.getToUser().getId())) {
-                contactChecker = true;
-                break;
+        try {
+            Contacts contacts = contactsDao.getOne(new ContactsId(user.get().getId(), userDestination.get().getId()));
+            if (contacts.getContact().getId() <= 0){
+                logger.error("Destination user is not in your contact list");
             }
-        }
 
-        if (!contactChecker) {
+        } catch (EntityNotFoundException e) {
             logger.error("Destination user is not in your contact list");
             throw new NoSuchElementException("Destination user is not in your contact list");
         }
+
 
         //if amount is 0 send error
         if (transfer.getAmount() <= 0) {
@@ -90,7 +87,7 @@ public class TransferServiceImpl implements TransferService {
         }
 
         // get amount of money of user to transfer
-        user.get().setWallet(user.get().getWallet() - (transfer.getAmount() * Transfer.FEES_OF_TRANSFER+ transfer.getAmount() ));
+        user.get().setWallet(user.get().getWallet() - (transfer.getAmount() * Transfer.FEES_OF_TRANSFER + transfer.getAmount()));
 
         // if wallet null create it if not add amount
         if (userDestination.get().getWallet() != null) {
