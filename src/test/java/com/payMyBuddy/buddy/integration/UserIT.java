@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
@@ -29,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Rollback()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserIT {
-    // TODO: 10/11/2020 how to add global variables to the it tests
     @Autowired
     UserDao userDao;
 
@@ -44,13 +44,12 @@ public class UserIT {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    static Date today = new Date();
+    static Date today = Date.from(Instant.parse("2020-10-31T23:40:25.737000Z"));
 
     @Order(5)
     @Test
     public void addUser() throws Exception {
-// TODO: 10/11/2020 wtf 
-        User userTest = new User("John", "Boyd", "jaboyd@email.com", "password",today
+        User userTest = new User("John1", "Boyd1", "sehezth@email.com", "password1", today
         );
 
         ObjectMapper mapper = new ObjectMapper();
@@ -60,9 +59,9 @@ public class UserIT {
                 .andExpect(status().isCreated());
 
 
-
         Optional<User> userAdd = userDao.getByEmail(userTest.getEmail());
         userTest.setId(6);
+        userTest.setCreationDate(userAdd.get().getCreationDate());
         assertNotNull(userAdd.get());
         assertThat(mapper.writeValueAsString(userTest)).isEqualTo(mapper.writeValueAsString(userAdd.get()));
     }
