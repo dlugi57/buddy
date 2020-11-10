@@ -48,7 +48,7 @@ public class Transfer implements Serializable {
         this.amount = amount;
         this.fromUser = fromUser;
         this.toUser = toUser;
-        this.creationDate = creationDate;
+        this.creationDate  = (Date) creationDate.clone();
         this.description = description;
     }
 }

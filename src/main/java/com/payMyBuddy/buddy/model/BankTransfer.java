@@ -42,7 +42,7 @@ public class BankTransfer implements Serializable {
         this.amount = amount;
         this.bankAccount = bankAccount;
         this.transferType = transferType;
-        this.creationDate = creationDate;
+        this.creationDate  = (Date) creationDate.clone();
         this.description = description;
     }
 
