@@ -1,7 +1,9 @@
 package com.payMyBuddy.buddy.service;
 
+import com.payMyBuddy.buddy.config.ContactsId;
 import com.payMyBuddy.buddy.dao.ContactsDao;
 import com.payMyBuddy.buddy.model.Contacts;
+import com.payMyBuddy.buddy.model.Transfer;
 import com.payMyBuddy.buddy.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,12 +13,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
@@ -104,32 +104,16 @@ class ContactsServiceTest {
 
     @Test
     void deleteContact() {
-        user.setId(1);
-        contact.setId(1);
-        given(contactsDao.findAllByUserId(anyInt())).willReturn(contactsList);
+
+        // GIVEN
+        given(contactsDao.getOne(any(ContactsId.class))).willReturn(contacts);
 
         // WHEN
         boolean contactsTest = contactsService.deleteContact(contacts);
+
         // THEN
-        verify(contactsDao, times(1)).findAllByUserId(anyInt());
         verify(contactsDao, times(1)).delete(any(Contacts.class));
-
         assertThat(contactsTest).isEqualTo(true);
-
     }
 
-    @Test
-    void deleteContact_Null() {
-        user.setId(1);
-        contact.setId(1);
-        given(contactsDao.findAllByUserId(anyInt())).willReturn(Collections.emptyList());
-
-        // WHEN
-        boolean contactsTest = contactsService.deleteContact(contacts);
-        // THEN
-        verify(contactsDao, times(1)).findAllByUserId(anyInt());
-
-        assertThat(contactsTest).isEqualTo(false);
-
-    }
 }

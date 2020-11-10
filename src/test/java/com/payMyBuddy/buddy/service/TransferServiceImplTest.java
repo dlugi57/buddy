@@ -1,5 +1,6 @@
 package com.payMyBuddy.buddy.service;
 
+import com.payMyBuddy.buddy.config.ContactsId;
 import com.payMyBuddy.buddy.dao.ContactsDao;
 import com.payMyBuddy.buddy.dao.TransferDao;
 import com.payMyBuddy.buddy.dao.UserDao;
@@ -72,7 +73,7 @@ class TransferServiceImplTest {
 
 
         given(userDao.getById(anyInt())).willReturn(Optional.of(user));
-        given(contactsDao.findAllByUserId(anyInt())).willReturn(contactsList);
+        given(contactsDao.getOne(any(ContactsId.class))).willReturn(contacts);
         given(transferDao.save(any(Transfer.class))).willReturn(transfer);
 
         // WHEN
@@ -91,8 +92,8 @@ class TransferServiceImplTest {
 
         // GIVEN
         given(userDao.getById(anyInt())).willReturn(Optional.of(user));
-        given(contactsDao.findAllByUserId(anyInt())).willReturn(contactsList);
         given(transferDao.save(any(Transfer.class))).willReturn(transfer);
+        given(contactsDao.getOne(any(ContactsId.class))).willReturn(contacts);
 
         // WHEN & THEN
         assertThrows(NoSuchElementException.class,
@@ -107,8 +108,8 @@ class TransferServiceImplTest {
 
         // GIVEN
         given(userDao.getById(anyInt())).willReturn(Optional.of(user));
-        given(contactsDao.findAllByUserId(anyInt())).willReturn(contactsList);
         given(transferDao.save(any(Transfer.class))).willReturn(transfer);
+        given(contactsDao.getOne(any(ContactsId.class))).willReturn(contacts);
 
         // WHEN & THEN
         assertThrows(NoSuchElementException.class,
@@ -119,11 +120,9 @@ class TransferServiceImplTest {
     @Test
     void addTransfer_InvalidContact() {
         user.setId(1);
-        contact.setId(2);
-
         // GIVEN
         given(userDao.getById(anyInt())).willReturn(Optional.of(user));
-        given(contactsDao.findAllByUserId(anyInt())).willReturn(Collections.emptyList());
+        given(contactsDao.getOne(any(ContactsId.class))).willReturn(contacts);
         given(transferDao.save(any(Transfer.class))).willReturn(transfer);
 
         // WHEN & THEN
@@ -141,8 +140,8 @@ class TransferServiceImplTest {
 
         // GIVEN
         given(userDao.getById(anyInt())).willReturn(Optional.of(user));
-        given(contactsDao.findAllByUserId(anyInt())).willReturn(contactsList);
         given(transferDao.save(any(Transfer.class))).willReturn(transfer);
+        given(contactsDao.getOne(any(ContactsId.class))).willReturn(contacts);
 
         // WHEN & THEN
         assertThrows(NoSuchElementException.class,
