@@ -1,6 +1,5 @@
 package com.payMyBuddy.buddy.config;
 
-import com.payMyBuddy.buddy.model.User;
 import lombok.Getter;
 import lombok.Setter;
 

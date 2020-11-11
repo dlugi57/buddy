@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ContactsDao extends JpaRepository<Contacts, Integer> {
+public interface ContactsDao extends JpaRepository<Contacts, ContactsId> {
     boolean existsByUserId(Integer id);
 
     List<Contacts> findAllByUserId(Integer userId);
