@@ -44,9 +44,9 @@ public class UserIT {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    static Date today = Date.from(Instant.parse("2020-10-31T23:40:25.737000Z"));
+    static Date today = Date.from(Instant.parse("2020-10-31T22:40:25.737000Z"));
 
-    @Order(5)
+    @Order(1)
     @Test
     public void addUser() throws Exception {
         User userTest = new User("John1", "Boyd1", "sehezth@email.com", "password1", today
@@ -61,9 +61,10 @@ public class UserIT {
 
         Optional<User> userAdd = userDao.getByEmail(userTest.getEmail());
         userTest.setId(6);
-        userTest.setCreationDate(userAdd.get().getCreationDate());
-        assertNotNull(userAdd.get());
-        assertThat(mapper.writeValueAsString(userTest)).isEqualTo(mapper.writeValueAsString(userAdd.get()));
+        assert userAdd.orElse(null) != null;
+        userTest.setCreationDate(userAdd.orElse(null).getCreationDate());
+        assertNotNull(userAdd.orElse(null));
+        assertThat(mapper.writeValueAsString(userTest)).isEqualTo(mapper.writeValueAsString(userAdd.orElse(null)));
     }
 
 }
