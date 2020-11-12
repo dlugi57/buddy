@@ -1,4 +1,4 @@
-<h2>Pay my Buddy</h2>
+# Pay my Buddy
 
 We make moving your money easy!
 
