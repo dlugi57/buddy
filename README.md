@@ -56,13 +56,12 @@ To run the tests from maven, go to the folder that contains the pom.xml file and
 
 `mvn test`
 
-## API endpoints 
 
 ## Class Diagram
 
-![ClassDiagram](src/main/resources/static/schema.png)
+![ClassDiagram](src/main/resources/static/class.png)
 
-## Database schema
+## Database Schema
 
 ![DataBase Schema](src/main/resources/static/schema.png)
 
