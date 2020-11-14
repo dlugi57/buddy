@@ -1,9 +1,7 @@
 package com.payMyBuddy.buddy.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,7 +17,6 @@ import java.util.Date;
 @Entity
 @Proxy(lazy = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
-//@JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class User implements Serializable {
 
     @Id
@@ -51,7 +48,7 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.creationDate  = (Date) creationDate.clone();
+        this.creationDate = (Date) creationDate.clone();
     }
 
     public Date getCreationDate() {

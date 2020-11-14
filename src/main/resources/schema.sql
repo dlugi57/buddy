@@ -18,20 +18,6 @@ CREATE TABLE `contacts` (
                             PRIMARY KEY (`contact_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
---
--- Table structure for table `bank_account`
---
-
-DROP TABLE IF EXISTS `bank_account`;
-CREATE TABLE `bank_account` (
-                                `id` int NOT NULL AUTO_INCREMENT,
-                                `name` varchar(255) NOT NULL,
-                                `number` varchar(255) NOT NULL,
-                                `user_id` int DEFAULT NULL,
-                                PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 --
 -- Table structure for table `bank_transfer`
 --
@@ -46,6 +32,19 @@ CREATE TABLE `bank_transfer` (
                                  `bank_account_id` int DEFAULT NULL,
                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Table structure for table `bank_account`
+--
+
+DROP TABLE IF EXISTS `bank_account`;
+CREATE TABLE `bank_account` (
+                                `id` int NOT NULL AUTO_INCREMENT,
+                                `name` varchar(255) NOT NULL,
+                                `number` varchar(255) NOT NULL,
+                                `user_id` int DEFAULT NULL,
+                                PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table `transfer`
@@ -128,7 +127,7 @@ ALTER TABLE `bank_account`
 --
 
 ALTER TABLE `bank_transfer`
-    ADD CONSTRAINT `FK175t1a2rxuav4nphc1pdikk6e` FOREIGN KEY (`bank_account_id`) REFERENCES `user` (`id`);
+    ADD CONSTRAINT `FK175t1a2rxuav4nphc1pdikk6e` FOREIGN KEY (`bank_account_id`) REFERENCES `bank_account` (`id`);
 
 --
 -- Table secondary keys for table `transfer`
